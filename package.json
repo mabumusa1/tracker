@@ -1,34 +1,28 @@
 {
   "name": "tracker",
   "version": "1.0.0",
-  "description": "Tracker for browser ecommerce events",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
     "build": "rollup --config",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "rollup --config --watch"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mabumusa1/tracker.git"
-  },
-  "keywords": [
-    "tracking",
-    "marketing",
-    "events"
-  ],
-  "author": "Mohammad Abu Musa <m.abumusa@gmail.com>",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/mabumusa1/tracker/issues"
-  },
-  "homepage": "https://github.com/mabumusa1/tracker#readme",
+  "description": "",
   "devDependencies": {
+    "@eslint/js": "^9.23.0",
+    "@rollup/plugin-alias": "^5.1.1",
+    "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.1.2",
+    "eslint": "^9.23.0",
+    "globals": "^16.0.0",
     "rollup": "^4.38.0",
     "rollup-plugin-livereload": "^2.0.5",
     "rollup-plugin-serve": "^3.0.0",
     "tslib": "^2.8.1",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.28.0"
   }
 }

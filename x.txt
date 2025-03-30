@@ -1,0 +1,5 @@
+
+> tracker@1.0.0 dev
+> rollup --config --watch
+
+Building in production mode...

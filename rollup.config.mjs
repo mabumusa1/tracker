@@ -1,27 +1,67 @@
-import typescript from '@rollup/plugin-typescript';
+import typescript from "@rollup/plugin-typescript";
+import serve from 'rollup-plugin-serve';
+import livereload from 'rollup-plugin-livereload';
+import pkg from './package.json' assert { type: "json" };
+import terser from '@rollup/plugin-terser';
+import alias from '@rollup/plugin-alias';
 
-import devConfig from './rollup.config.dev.mjs';
-import prodConfig from './rollup.config.prod.mjs';
+const isDev = process.env.ROLLUP_WATCH
 
-// Check if production flag is set
-const isProd = process.env.NODE_ENV === 'production';
+const banner = `/*!
+ * Tracker.js v${pkg.version}
+ * (c) ${new Date().getFullYear()} Tracker Analytics
+ * @license Commercial
+ */`;
 
-const commonConfig = {
+const config = {
   input: 'src/index.ts',
-  output: {
-    file: 'dist/tracker.js',
-    format: 'umd',
-    name: 'Tracker',
-    sourcemap: true 
-  },
-  plugins: [typescript({
-    sourceMap: true
-  })],
+  output: [
+    {
+      file: 'dist/tracker.js',
+      format: 'iife',
+      name: 'Tracker',
+      banner,
+      sourcemap: true,
+    },
+    {
+      file: 'dist/tracker.esm.js',
+      format: 'es',
+      banner,
+      sourcemap: true,
+    }
+  ],
+  plugins: [
+    alias({
+      entries: [
+        { find: '@', replacement: 'src' }
+      ]
+    }),
+    typescript({
+      sourceMap: true,
+      outDir: 'dist',
+    }),
+    !isDev && terser({
+      output: {
+        comments: (node, comment) => {
+          return /@license/i.test(comment.value);
+        }
+      }
+    })
+  ].filter(Boolean),
 };
 
-// Export the appropriate configuration based on environment
-const config = isProd
-  ? { ...commonConfig, ...prodConfig }
-  : { ...commonConfig, ...devConfig };
+if (isDev) {
+  config.plugins.push(
+    serve({
+      open: true,
+      contentBase: ['dist', 'public'],
+      host: 'localhost',
+      port: 3000
+    }),
+    livereload({
+      watch: 'dist'
+    })
+  );
+}
 
 export default config;
